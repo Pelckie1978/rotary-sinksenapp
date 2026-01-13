@@ -1,0 +1,17 @@
+{
+  "name": "Rotary Sinksenapp",
+  "short_name": "Sinksen",
+  "icons": [
+    {
+      "src": "icon512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0B1E3F",
+  "theme_color": "#0B1E3F",
+  "lang": "nl"
+}

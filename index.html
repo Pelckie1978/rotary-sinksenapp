@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Rotary Sinksenapp</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0B1E3F">
+<link rel="apple-touch-icon" href="icon512.png">
+<style>
+  :root{
+    --blue:#0B1E3F;
+    --blue2:#0e2a55;
+    --panel:#0f1d3a;
+    --gold:#F7B733;
+    --gold-2:#e7a623;
+    --muted:#d9e1ff;
+    --muted-2:#b8c3e6;
+    --border:rgba(255,255,255,0.08);
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans";
+    color: var(--muted);
+    background: radial-gradient(80% 80% at 50% 0%, #123166, var(--blue)) fixed;
+    -webkit-font-smoothing: antialiased;
+    min-height:100dvh;
+  }
+  header{
+    background: linear-gradient(90deg, var(--panel), #0b1e3f 60%);
+    padding:18px 20px;
+    display:flex; align-items:center; gap:14px;
+    border-bottom:1px solid var(--border);
+    box-shadow: 0 8px 26px rgba(0,0,0,0.45);
+    position:sticky; top:0; z-index:2;
+  }
+  .logo{
+    width:56px; height:56px; border-radius:12px;
+    background: radial-gradient(circle at 30% 30%, #1a3d80, #0b1e3f);
+    display:grid; place-items:center; position:relative;
+    box-shadow: inset 0 -8px 20px rgba(0,0,0,0.5), 0 10px 24px rgba(0,0,0,0.25);
+  }
+  .logo::after{
+    content:""; width:34px; height:34px; border-radius:50%;
+    border:6px solid var(--gold);
+    box-shadow: 0 0 0 3px rgba(247,183,51,0.25);
+  }
+  h1{ margin:0; color:#fff; font-size:22px; letter-spacing:0.3px; }
+  .subtitle{ margin-top:4px; color:var(--muted-2); font-size:13px; }
+
+  main{ padding:18px; max-width:1100px; margin:0 auto; display:grid; grid-template-columns: 1fr 430px; gap:18px; }
+  .card{ background: linear-gradient(180deg, rgba(15,29,58,0.95), rgba(15,29,58,0.85));
+         border:1px solid var(--border);
+         border-radius:14px; padding:14px;
+         box-shadow: 0 12px 28px rgba(0,0,0,0.45);
+  }
+  .menu{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+  .drink{
+    padding:12px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; gap:10px;
+    background: linear-gradient(180deg, rgba(18,49,102,0.2), rgba(11,30,63,0.15));
+    border:1px solid var(--border);
+  }
+  .drink .name{ font-weight:700; color:#fff; letter-spacing:0.2px; }
+  .drink .small{ color:var(--muted-2); }
+  .price{ color:var(--gold); font-weight:800; letter-spacing:0.3px; }
+  .controls{ display:flex; gap:8px; align-items:center; }
+  .qty{ width:70px; padding:8px 10px; border-radius:10px; background:#0a1b39; color:var(--muted); border:1px solid var(--border); }
+  button.primary{
+    background:linear-gradient(180deg, var(--gold), var(--gold-2));
+    color:#18243f; border:none; padding:10px 12px; border-radius:10px; cursor:pointer; font-weight:800;
+    box-shadow: 0 8px 20px rgba(247,183,51,0.35);
+  }
+  button.ghost{ background:transparent; color:var(--muted-2); border:1px solid var(--border); padding:10px 12px; border-radius:10px; cursor:pointer; }
+  .right{ display:flex; flex-direction:column; gap:12px; }
+  .orders-list{ max-height:58vh; overflow:auto; margin-top:6px; }
+  table{ width:100%; border-collapse:collapse; color:var(--muted); }
+  th,td{ padding:10px 8px; text-align:left; font-size:14px; border-bottom:1px dashed var(--border); }
+  th{ color:#fff; font-weight:800; }
+  .total{ display:flex; justify-content:space-between; align-items:center; padding:12px; font-size:18px; font-weight:900; color:#fff; border-top:1px solid var(--border); }
+  footer{ text-align:center; color:var(--muted-2); padding:14px 0 24px; }
+  footer b{ color:var(--gold); }
+
+  .actions{ display:flex; gap:8px; flex-wrap:wrap; }
+  .badge{ background:rgba(247,183,51,0.1); color:var(--gold); border:1px solid rgba(247,183,51,0.25); padding:4px 8px; border-radius:999px; font-weight:700; font-size:12px; }
+  @media (max-width:980px){
+    main{ grid-template-columns: 1fr; padding:14px; }
+  }
+</style>
+<script>
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', ()=> navigator.serviceWorker.register('./service-worker.js'));
+  }
+</script>
+</head>
+<body>
+<header>
+  <div class="logo"></div>
+  <div>
+    <h1>Rotary Sinksenapp</h1>
+    <div class="subtitle">Drankbestellingen • Rotary-stijl • Offline PWA</div>
+  </div>
+</header>
+
+<main>
+  <section class="card">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+      <h2 style="color:#fff; margin:6px 0;">Menu</h2>
+      <span class="badge">€ Bier 3 — Fris 2,50</span>
+    </div>
+    <div class="menu" id="menu"></div>
+    <div style="margin-top:12px; display:flex; gap:8px; align-items:center;">
+      <button class="primary" id="addCustomBtn">Aangepaste bestelling</button>
+      <button class="ghost" id="clearAllBtn">Wis alle</button>
+    </div>
+    <p class="subtitle" style="margin-top:10px">Kies een drankje, zet het aantal en klik op "Voeg toe".</p>
+  </section>
+
+  <aside class="card right">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h2 style="margin:6px 0;color:#fff">Bestellingen</h2>
+      <div class="subtitle">Aantal: <span id="count">0</span></div>
+    </div>
+
+    <div class="orders-list card" style="padding:6px;">
+      <table id="ordersTable" aria-label="bestellingen">
+        <thead><tr><th>Drank</th><th>Aantal</th><th>€</th><th></th></tr></thead>
+        <tbody id="ordersBody"></tbody>
+      </table>
+    </div>
+
+    <div class="total" id="totalRow">
+      <div>Totaal</div>
+      <div>€ <span id="total">0.00</span></div>
+    </div>
+
+    <div class="actions">
+      <button class="primary" id="exportCsv">Export CSV</button>
+      <button class="ghost" id="resetBtn">Reset</button>
+    </div>
+  </aside>
+</main>
+
+<footer>Powered by <b>Pelckie</b></footer>
+
+<!-- Modal for custom -->
+<div id="modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); align-items:center; justify-content:center;">
+  <div class="card" style="width:340px;">
+    <h3 style="margin-top:0;color:#fff">Aangepaste bestelling</h3>
+    <label class="subtitle">Naam</label>
+    <input id="customName" style="width:100%; padding:10px; margin-bottom:8px; border-radius:10px; background:#0a1b39; color:var(--muted); border:1px solid var(--border)"/>
+    <label class="subtitle">Prijs (€)</label>
+    <input id="customPrice" type="number" min="0" step="0.01" style="width:100%; padding:10px; margin-bottom:8px; border-radius:10px; background:#0a1b39; color:var(--muted); border:1px solid var(--border)"/>
+    <label class="subtitle">Aantal</label>
+    <input id="customQty" type="number" min="1" value="1" style="width:100%; padding:10px; margin-bottom:12px; border-radius:10px; background:#0a1b39; color:var(--muted); border:1px solid var(--border)"/>
+    <div style="display:flex; gap:8px; justify-content:flex-end;">
+      <button class="ghost" id="cancelCustom">Annuleer</button>
+      <button class="primary" id="saveCustom">Voeg toe</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Drinks definition with Rotary pricing
+const DRINKS = [
+  { id: 'bier', name: 'Bier', price: 3.00 },
+  { id: 'cola', name: 'Cola', price: 2.50 },
+  { id: 'fanta', name: 'Fanta', price: 2.50 },
+  { id: 'icetea', name: 'Ice Tea', price: 2.50 },
+  { id: 'water', name: 'Water', price: 2.50 },
+];
+
+let orders = [];
+
+// DOM
+const menuEl = document.getElementById('menu');
+const ordersBody = document.getElementById('ordersBody');
+const totalEl = document.getElementById('total');
+const countEl = document.getElementById('count');
+
+function buildMenu(){
+  menuEl.innerHTML = '';
+  DRINKS.forEach(d => {
+    const div = document.createElement('div'); div.className='drink';
+    div.innerHTML = `
+      <div style="display:flex;gap:10px;align-items:center;">
+        <div style="width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(247,183,51,0.15)"></div>
+        <div style="display:flex;flex-direction:column;">
+          <div class="name">${d.name}</div>
+          <div class="small">€ ${d.price.toFixed(2)}</div>
+        </div>
+      </div>
+      <div class="controls">
+        <input class="qty" type="number" min="1" value="1" id="qty_${d.id}" />
+        <button class="primary" data-id="${d.id}">Voeg toe</button>
+      </div>
+    `;
+    menuEl.appendChild(div);
+  });
+}
+buildMenu();
+
+menuEl.addEventListener('click', (e)=>{
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  const id = btn.dataset.id;
+  const drink = DRINKS.find(x=>x.id===id);
+  const qtyEl = document.getElementById('qty_'+id);
+  const qty = Math.max(1, parseInt(qtyEl.value||1));
+  addOrder(drink.name, drink.price, qty);
+});
+
+function addOrder(name, price, qty){
+  const id = 'ord_' + Date.now() + '_' + Math.floor(Math.random()*999);
+  orders.push({ id, name, price: Number(price), qty: Number(qty) });
+  saveState();
+  renderOrders();
+}
+
+function renderOrders(){
+  ordersBody.innerHTML = '';
+  orders.forEach(o=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${o.name}</td>
+      <td>${o.qty}</td>
+      <td>€ ${(o.price*o.qty).toFixed(2)}</td>
+      <td style="text-align:right"><button class="ghost" data-remove="${o.id}">Verwijder</button></td>
+    `;
+    ordersBody.appendChild(tr);
+  });
+  const total = orders.reduce((s,o)=>s + o.price*o.qty, 0);
+  totalEl.textContent = total.toFixed(2);
+  countEl.textContent = orders.length;
+}
+
+ordersBody.addEventListener('click', (e)=>{
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  const id = btn.dataset.remove;
+  if(!id) return;
+  orders = orders.filter(o=>o.id!==id);
+  saveState(); renderOrders();
+});
+
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  if(!confirm('Weet je zeker dat je alle bestellingen wilt resetten?')) return;
+  orders = []; saveState(); renderOrders();
+});
+
+document.getElementById('clearAllBtn').addEventListener('click', ()=>{
+  if(!confirm('Wis alle bestellingen (ja/ne)?')) return;
+  orders = []; saveState(); renderOrders();
+});
+
+document.getElementById('exportCsv').addEventListener('click', ()=>{
+  if(orders.length===0){ alert('Geen bestellingen om te exporteren.'); return; }
+  const rows = [['Naam','Aantal','Prijs_per_stuk','Totaal']];
+  orders.forEach(o=> rows.push([o.name, o.qty, o.price.toFixed(2), (o.price*o.qty).toFixed(2)]));
+  const csv = rows.map(r=> r.map(cell=> '"'+String(cell).replace(/"/g,'""')+'"').join(',')).join('\\n');
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download = 'bestellingen.csv'; document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 2000);
+});
+
+// Modal
+const modal = document.getElementById('modal');
+document.getElementById('addCustomBtn').addEventListener('click', ()=> modal.style.display='flex');
+document.getElementById('cancelCustom').addEventListener('click', ()=> modal.style.display='none');
+document.getElementById('saveCustom').addEventListener('click', ()=>{
+  const name = document.getElementById('customName').value.trim() || 'Aangepast';
+  const price = parseFloat(document.getElementById('customPrice').value) || 0;
+  const qty = Math.max(1, parseInt(document.getElementById('customQty').value)||1);
+  addOrder(name, price, qty);
+  document.getElementById('customName').value=''; document.getElementById('customPrice').value=''; document.getElementById('customQty').value='1';
+  modal.style.display='none';
+});
+
+function saveState(){ localStorage.setItem('sinksen_orders', JSON.stringify(orders)); }
+function loadState(){ const s = localStorage.getItem('sinksen_orders'); if(s){ try{ orders = JSON.parse(s); }catch(e){ orders=[];} } }
+loadState(); renderOrders();
+
+modal.addEventListener('click', (e)=>{ if(e.target===modal) modal.style.display='none'; });
+</script>
+</body>
+</html>
