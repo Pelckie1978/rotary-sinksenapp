@@ -9,151 +9,70 @@
 <link rel="apple-touch-icon" href="icon512.png">
 <style>
   :root{
-    --blue:#0B1E3F;
-    --blue2:#0e2a55;
-    --panel:#0f1d3a;
-    --gold:#F7B733;
-    --gold2:#e7a623;
-    --muted:#d9e1ff;
-    --muted2:#b8c3e6;
-    --border:rgba(255,255,255,0.08);
-    --danger:#ff6b6b;
+    --blue:#0B1E3F; --panel:#0f1d3a; --gold:#F7B733;
+    --muted:#d9e1ff; --muted2:#b8c3e6; --border:rgba(255,255,255,0.08);
+    --danger:#ff6b6b; --ok:#4ade80; --cat:#F7B733; --cat2:#e7a623;
   }
   *{ box-sizing:border-box; }
-  body{
-    margin:0;
-    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans";
-    color: var(--muted);
-    background: radial-gradient(80% 80% at 50% 0%, #123166, var(--blue)) fixed;
-    -webkit-font-smoothing: antialiased;
-    min-height:100dvh;
-  }
-  header{
-    background: linear-gradient(90deg, var(--panel), #0b1e3f 60%);
-    padding:14px 16px;
-    display:flex; align-items:center; justify-content:space-between; gap:12px;
-    border-bottom:1px solid var(--border);
-    box-shadow: 0 8px 26px rgba(0,0,0,0.45);
-    position:sticky; top:0; z-index:5;
-  }
+  body{ margin:0; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    color:var(--muted); background: radial-gradient(80% 80% at 50% 0%, #123166, var(--blue)) fixed; min-height:100dvh; }
+  header{ background: linear-gradient(90deg, var(--panel), #0b1e3f 60%);
+    padding:14px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px;
+    border-bottom:1px solid var(--border); box-shadow:0 8px 26px rgba(0,0,0,0.45);
+    position:sticky; top:0; z-index:5; }
   .brand{ display:flex; align-items:center; gap:12px; min-width:0; }
-  .logo{
-    width:48px; height:48px; border-radius:12px;
+  .logo{ width:48px; height:48px; border-radius:12px;
     background: radial-gradient(circle at 30% 30%, #1a3d80, #0b1e3f);
-    display:grid; place-items:center; position:relative;
-    box-shadow: inset 0 -8px 20px rgba(0,0,0,0.5), 0 10px 24px rgba(0,0,0,0.25);
-    flex:0 0 auto;
-  }
-  .logo::after{
-    content:""; width:28px; height:28px; border-radius:50%;
-    border:5px solid var(--gold);
-    box-shadow: 0 0 0 3px rgba(247,183,51,0.25);
-  }
+    display:grid; place-items:center; overflow:hidden;
+    box-shadow: inset 0 -8px 20px rgba(0,0,0,0.5), 0 10px 24px rgba(0,0,0,0.25); flex:0 0 auto; }
+  .logo img{ width:44px; height:44px; display:block; }
   h1{ margin:0; color:#fff; font-size:18px; letter-spacing:0.3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .subtitle{ margin-top:2px; color:var(--muted2); font-size:12px; }
-  .userchip{
-    display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end;
-  }
-  .pill{
-    display:inline-flex; align-items:center; gap:8px;
-    background:rgba(247,183,51,0.12);
-    color:var(--gold);
-    border:1px solid rgba(247,183,51,0.25);
-    padding:6px 10px; border-radius:999px;
-    font-weight:800; font-size:12px;
-  }
+  .userchip{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+  .pill{ display:inline-flex; align-items:center; gap:8px; background:rgba(247,183,51,0.12); color:var(--gold);
+    border:1px solid rgba(247,183,51,0.25); padding:6px 10px; border-radius:999px; font-weight:900; font-size:12px; }
+  .pill.ok{ background:rgba(74,222,128,0.12); border-color:rgba(74,222,128,0.25); color:var(--ok); }
   button{ font:inherit; }
-  button.primary{
-    background:linear-gradient(180deg, var(--gold), var(--gold2));
-    color:#18243f; border:none; padding:10px 12px; border-radius:12px; cursor:pointer; font-weight:900;
-    box-shadow: 0 10px 22px rgba(247,183,51,0.35);
-  }
-  button.ghost{
-    background:transparent; color:var(--muted2);
-    border:1px solid var(--border); padding:10px 12px; border-radius:12px; cursor:pointer;
-  }
-  button.danger{
-    background:transparent; color:var(--danger);
-    border:1px solid rgba(255,107,107,0.35); padding:10px 12px; border-radius:12px; cursor:pointer; font-weight:800;
-  }
-  .tabs{
-    display:flex; gap:8px; flex-wrap:wrap;
-    padding:12px 16px 0;
-    max-width:1200px; margin:0 auto;
-  }
-  .tab{
-    padding:8px 10px; border-radius:999px;
-    border:1px solid var(--border);
-    background:rgba(15,29,58,0.6);
-    color:var(--muted2);
-    cursor:pointer;
-    font-weight:800; font-size:13px;
-  }
-  .tab.active{
-    border-color: rgba(247,183,51,0.45);
-    color:#18243f;
-    background: linear-gradient(180deg, rgba(247,183,51,1), rgba(231,166,35,1));
-  }
-  main{
-    padding:14px 16px 18px;
-    max-width:1200px; margin:0 auto;
-    display:grid; grid-template-columns: 1fr 440px; gap:16px;
-  }
-  .card{
-    background: linear-gradient(180deg, rgba(15,29,58,0.95), rgba(15,29,58,0.85));
-    border:1px solid var(--border);
-    border-radius:16px; padding:14px;
-    box-shadow: 0 12px 28px rgba(0,0,0,0.45);
-  }
+  button.primary{ background:linear-gradient(180deg, var(--cat), var(--cat2)); color:#18243f; border:none; padding:10px 12px;
+    border-radius:12px; cursor:pointer; font-weight:900; box-shadow:0 10px 22px rgba(0,0,0,0.2); }
+  button.ghost{ background:transparent; color:var(--muted2); border:1px solid var(--border); padding:10px 12px; border-radius:12px; cursor:pointer; }
+  button.danger{ background:transparent; color:var(--danger); border:1px solid rgba(255,107,107,0.35); padding:10px 12px; border-radius:12px; cursor:pointer; font-weight:900; }
+  button.ok{ background:rgba(74,222,128,0.12); color:var(--ok); border:1px solid rgba(74,222,128,0.35); padding:10px 12px; border-radius:12px; cursor:pointer; font-weight:900; }
+  .tabs{ display:flex; gap:8px; flex-wrap:wrap; padding:12px 16px 0; max-width:1200px; margin:0 auto; }
+  .tab{ padding:8px 10px; border-radius:999px; border:1px solid var(--border); background:rgba(15,29,58,0.6);
+    color:var(--muted2); cursor:pointer; font-weight:900; font-size:13px; display:flex; align-items:center; gap:8px; }
+  .dot{ width:10px; height:10px; border-radius:50%; background:var(--gold); box-shadow:0 0 0 4px rgba(247,183,51,0.12); }
+  main{ padding:14px 16px 18px; max-width:1200px; margin:0 auto; display:grid; grid-template-columns: 1fr 460px; gap:16px; }
+  .card{ background: linear-gradient(180deg, rgba(15,29,58,0.95), rgba(15,29,58,0.85)); border:1px solid var(--border);
+    border-radius:16px; padding:14px; box-shadow:0 12px 28px rgba(0,0,0,0.45); }
   .grid2{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
-  .item{
-    padding:12px; border-radius:14px;
-    background: linear-gradient(180deg, rgba(18,49,102,0.2), rgba(11,30,63,0.15));
-    border:1px solid var(--border);
-    display:flex; justify-content:space-between; align-items:center; gap:10px;
-  }
-  .name{ font-weight:900; color:#fff; letter-spacing:0.2px; }
+  .item{ padding:12px; border-radius:14px; background: linear-gradient(180deg, rgba(18,49,102,0.2), rgba(11,30,63,0.15));
+    border:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; gap:10px; }
+  .name{ font-weight:1000; color:#fff; letter-spacing:0.2px; }
   .small{ color:var(--muted2); font-size:12px; }
   .controls{ display:flex; gap:8px; align-items:center; }
   .qty{ width:72px; padding:8px 10px; border-radius:12px; background:#0a1b39; color:var(--muted); border:1px solid var(--border); }
   .orders-list{ max-height:58vh; overflow:auto; margin-top:8px; }
   table{ width:100%; border-collapse:collapse; }
-  th,td{ padding:10px 8px; border-bottom:1px dashed var(--border); font-size:13px; }
-  th{ color:#fff; font-weight:900; }
-  .total{ display:flex; justify-content:space-between; align-items:center; padding:12px; font-size:18px; font-weight:1000; color:#fff; border-top:1px solid var(--border); }
+  th,td{ padding:10px 8px; border-bottom:1px dashed var(--border); font-size:13px; vertical-align:top; }
+  th{ color:#fff; font-weight:1000; }
+  .total{ display:flex; justify-content:space-between; align-items:center; padding:12px; font-size:18px; font-weight:1100; color:#fff; border-top:1px solid var(--border); }
   .actions{ display:flex; gap:8px; flex-wrap:wrap; }
   .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
-  input, select{
-    width:100%;
-    padding:10px 12px;
-    border-radius:12px;
-    background:#0a1b39;
-    color:var(--muted);
-    border:1px solid var(--border);
-    outline:none;
-  }
-  label{ display:block; margin:10px 0 6px; color:var(--muted2); font-size:12px; font-weight:800; }
-  .mutednote{ color:var(--muted2); font-size:12px; margin-top:10px; }
+  input, select{ width:100%; padding:10px 12px; border-radius:12px; background:#0a1b39; color:var(--muted); border:1px solid var(--border); outline:none; }
+  label{ display:block; margin:10px 0 6px; color:var(--muted2); font-size:12px; font-weight:900; }
   footer{ text-align:center; color:var(--muted2); padding:10px 0 24px; }
   footer b{ color:var(--gold); }
-  .modal{
-    display:none; position:fixed; inset:0; background:rgba(0,0,0,0.62);
-    align-items:center; justify-content:center; z-index:10;
-    padding:18px;
-  }
+  .modal{ display:none; position:fixed; inset:0; background:rgba(0,0,0,0.62); align-items:center; justify-content:center; z-index:10; padding:18px; }
   .modal.show{ display:flex; }
-  .modal .card{ width:min(420px, 100%); }
-  .kpi{
-    display:flex; justify-content:space-between; align-items:center;
-    padding:10px 12px; border-radius:14px; border:1px solid var(--border);
-    background: rgba(10,27,57,0.55);
-    margin-top:10px;
-  }
-  @media (max-width:980px){
-    main{ grid-template-columns: 1fr; }
-    .orders-list{ max-height:46vh; }
-  }
+  .modal .card{ width:min(520px, 100%); }
+  .kpi{ display:flex; justify-content:space-between; align-items:center; padding:10px 12px; border-radius:14px; border:1px solid var(--border);
+    background: rgba(10,27,57,0.55); margin-top:10px; gap:10px; flex-wrap:wrap; }
+  .warn{ color:#ffd166; }
+  @media (max-width:980px){ main{ grid-template-columns: 1fr; } .orders-list{ max-height:46vh; } }
 </style>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   if('serviceWorker' in navigator){
     window.addEventListener('load', ()=> navigator.serviceWorker.register('./service-worker.js'));
@@ -163,14 +82,15 @@
 <body>
 <header>
   <div class="brand">
-    <div class="logo"></div>
+    <div class="logo"><img src="icon512.png" alt="Logo"></div>
     <div style="min-width:0">
       <h1>Rotary Sinksenapp</h1>
-      <div class="subtitle">Bestel • Reken af • Overzicht</div>
+      <div class="subtitle">Supabase Sync • Uniek ordernummer</div>
     </div>
   </div>
   <div class="userchip">
     <span class="pill">👤 <span id="currentUser">—</span></span>
+    <span class="pill ok">🧾 Order-ID <span id="orderNo">—</span></span>
     <button class="ghost" id="changeUserBtn">Wijzig naam</button>
   </div>
 </header>
@@ -184,7 +104,7 @@
         <div class="name" id="viewTitle">Menu</div>
         <div class="small" id="viewSubtitle">Kies een artikel en voeg toe</div>
       </div>
-      <span class="pill" id="priceHint">€ prijzen per artikel</span>
+      <span class="pill" id="syncStatus">☁️ Sync: <span class="warn">niet ingesteld</span></span>
     </div>
 
     <div id="viewMenu" style="margin-top:12px;"></div>
@@ -196,7 +116,6 @@
           <div class="small">Voeg items toe/verwijder items (blijft bewaard)</div>
         </div>
       </div>
-
       <div style="margin-top:12px;" class="card">
         <div class="name" style="font-size:14px;">Nieuw artikel</div>
         <label>Naam</label>
@@ -231,8 +150,8 @@
     <div id="viewTimeline" style="display:none; margin-top:12px;">
       <div class="kpi">
         <div>
-          <div class="name" style="font-size:14px;">Chronologisch overzicht</div>
-          <div class="small">Alle bestellingen, op tijd — filter per persoon</div>
+          <div class="name" style="font-size:14px;">Overzicht (alle toestellen)</div>
+          <div class="small">Uniek ordernummer = <b>orders.id</b> uit Supabase</div>
         </div>
         <div style="min-width:180px">
           <select id="timelineFilter"></select>
@@ -240,41 +159,35 @@
       </div>
       <div class="orders-list card" style="padding:6px; margin-top:12px;">
         <table>
-          <thead><tr><th>Tijd</th><th>Wie</th><th>Artikel</th><th>#</th><th>€</th></tr></thead>
+          <thead><tr><th>Order</th><th>Tijd</th><th>Wie</th><th>Artikel</th><th>#</th><th>€</th></tr></thead>
           <tbody id="timelineBody"></tbody>
         </table>
       </div>
-      <div class="mutednote">Tip: “Alle” toont iedereen, kies een naam om per persoon te zien.</div>
     </div>
-
-    <div class="mutednote">Footer staat onderaan: Powered by Pelckie.</div>
   </section>
 
   <aside class="card">
     <div class="row" style="justify-content:space-between">
       <div>
-        <div class="name" style="font-size:16px;">Bestellingen (dit toestel)</div>
-        <div class="small">Wordt lokaal opgeslagen</div>
+        <div class="name" style="font-size:16px;">Huidige bestelling</div>
+        <div class="small">Order-ID wordt pas toegekend bij afronden</div>
       </div>
-      <span class="pill">Aantal: <span id="count">0</span></span>
+      <span class="pill">Items: <span id="count">0</span></span>
     </div>
 
     <div class="orders-list card" style="padding:6px;">
-      <table aria-label="bestellingen">
+      <table aria-label="bestelling">
         <thead><tr><th>Wie</th><th>Artikel</th><th>#</th><th>€</th><th></th></tr></thead>
-        <tbody id="ordersBody"></tbody>
+        <tbody id="cartBody"></tbody>
       </table>
     </div>
 
     <div class="total"><div>Totaal</div><div>€ <span id="total">0.00</span></div></div>
 
     <div class="actions">
-      <button class="primary" id="exportCsv">Export CSV</button>
-      <button class="ghost" id="resetBtn">Reset</button>
-      <button class="danger" id="wipeAllBtn">Alles wissen</button>
+      <button class="ok" id="finalizeBtn">Rond af & verzend</button>
+      <button class="danger" id="clearCartBtn">Leeg bestelling</button>
     </div>
-
-    <div class="mutednote">Let op: deze versie synchroniseert nog niet tussen meerdere toestellen.</div>
   </aside>
 </main>
 
@@ -293,10 +206,23 @@
 </div>
 
 <script>
-const KEY_USER = 'sinksen_user_v2';
-const KEY_ITEMS = 'sinksen_items_v2';
-const KEY_ORDERS = 'sinksen_orders_v2';
+/* =====================
+   SUPABASE CONFIG
+   ===================== */
+const SUPABASE_URL = "https://dsyvyagbjxxflfzsmfsi.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_DEcptMVcURvnahORN6Sh0Q_Jx5dUhv_";
 
+/* Tables */
+const T_ORDERS = "orders";
+const T_LINES  = "orders_lines";
+
+/* Local keys */
+const KEY_USER  = 'sinksen_user_v6';
+const KEY_ITEMS = 'sinksen_items_v6';
+const KEY_CART  = 'sinksen_cart_v6';
+const KEY_DEVICE= 'sinksen_device_id_v6';
+
+/* Default menu */
 const DEFAULT_ITEMS = [
   { id:'bier', name:'Bier', price:3.00, category:'Bier' },
   { id:'speciaal', name:'Speciaalbier', price:3.50, category:'Bier' },
@@ -309,141 +235,131 @@ const DEFAULT_ITEMS = [
   { id:'chips', name:'Chips', price:2.00, category:'Chips' },
 ];
 
-let currentUser = '';
-let items = [];
-let orders = [];
-let view = 'Bier';
+let supabaseClient=null, realtimeChannel=null;
+let currentUser='', items=[], cart=[], deviceId='', view='Bier';
+let sharedLines=[];
 
-const currentUserEl = document.getElementById('currentUser');
-const tabsEl = document.getElementById('tabs');
-const viewTitle = document.getElementById('viewTitle');
-const viewSubtitle = document.getElementById('viewSubtitle');
-const viewMenu = document.getElementById('viewMenu');
-const viewManage = document.getElementById('viewManage');
-const viewTimeline = document.getElementById('viewTimeline');
-const priceHint = document.getElementById('priceHint');
+const currentUserEl=document.getElementById('currentUser');
+const orderNoEl=document.getElementById('orderNo');
+const syncStatus=document.getElementById('syncStatus');
 
-const ordersBody = document.getElementById('ordersBody');
-const totalEl = document.getElementById('total');
-const countEl = document.getElementById('count');
+const tabsEl=document.getElementById('tabs');
+const viewTitle=document.getElementById('viewTitle');
+const viewSubtitle=document.getElementById('viewSubtitle');
+const viewMenu=document.getElementById('viewMenu');
+const viewManage=document.getElementById('viewManage');
+const viewTimeline=document.getElementById('viewTimeline');
 
-const nameModal = document.getElementById('nameModal');
-const nameInput = document.getElementById('nameInput');
+const cartBody=document.getElementById('cartBody');
+const totalEl=document.getElementById('total');
+const countEl=document.getElementById('count');
 
-const euro = (n)=> Number(n).toFixed(2);
-const nowIso = ()=> new Date().toISOString();
-const formatTime = (iso)=>{
-  const d = new Date(iso);
-  const hh = String(d.getHours()).padStart(2,'0');
-  const mm = String(d.getMinutes()).padStart(2,'0');
-  const ss = String(d.getSeconds()).padStart(2,'0');
-  return `${hh}:${mm}:${ss}`;
+const nameModal=document.getElementById('nameModal');
+const nameInput=document.getElementById('nameInput');
+
+const euro=n=>Number(n).toFixed(2);
+const nowIso=()=>new Date().toISOString();
+const formatTime=(iso)=>{
+  const d=new Date(iso);
+  const hh=String(d.getHours()).padStart(2,'0');
+  const mm=String(d.getMinutes()).padStart(2,'0');
+  return `${hh}:${mm}`;
 };
-const uid = ()=> 'id_' + Math.random().toString(16).slice(2) + '_' + Date.now();
+const uid=()=> 'id_' + Math.random().toString(16).slice(2) + '_' + Date.now();
 
-function openNameModal(){ nameModal.classList.add('show'); setTimeout(()=> nameInput.focus(), 50); }
+const TAB_COLORS={
+  'Bier': ['#f59e0b', '#f97316'],
+  'Wijn': ['#a855f7', '#ec4899'],
+  'Fris': ['#22d3ee', '#38bdf8'],
+  'Chips': ['#fb7185', '#f43f5e'],
+  'Beheer': ['#F7B733', '#e7a623'],
+  'Overzicht': ['#4ade80', '#22c55e'],
+};
+function setAccentForView(v){
+  const pair=TAB_COLORS[v]||['#F7B733','#e7a623'];
+  document.documentElement.style.setProperty('--cat', pair[0]);
+  document.documentElement.style.setProperty('--cat2', pair[1]);
+}
+
+function openNameModal(){ nameModal.classList.add('show'); setTimeout(()=>nameInput.focus(),50); }
 function closeNameModal(){ nameModal.classList.remove('show'); }
 
+function loadDevice(){
+  deviceId=localStorage.getItem(KEY_DEVICE)||'';
+  if(!deviceId){ deviceId='dev_'+Math.random().toString(16).slice(2)+'_'+Date.now(); localStorage.setItem(KEY_DEVICE,deviceId); }
+}
 function loadUser(){
-  currentUser = (localStorage.getItem(KEY_USER) || '').trim();
-  if(!currentUser){ openNameModal(); }
-  else { currentUserEl.textContent = currentUser; }
+  currentUser=(localStorage.getItem(KEY_USER)||'').trim();
+  if(!currentUser) openNameModal(); else currentUserEl.textContent=currentUser;
 }
-function saveUser(name){
-  currentUser = name.trim();
-  localStorage.setItem(KEY_USER, currentUser);
-  currentUserEl.textContent = currentUser;
-}
+function saveUser(name){ currentUser=name.trim(); localStorage.setItem(KEY_USER,currentUser); currentUserEl.textContent=currentUser; }
+
 function loadItems(){
-  const s = localStorage.getItem(KEY_ITEMS);
-  if(s){ try{ items = JSON.parse(s) || []; }catch(e){ items = []; } }
-  if(!Array.isArray(items) || items.length===0){ items = DEFAULT_ITEMS; saveItems(); }
+  const s=localStorage.getItem(KEY_ITEMS);
+  if(s){ try{ items=JSON.parse(s)||[]; }catch(e){ items=[]; } }
+  if(!Array.isArray(items)||items.length===0){ items=DEFAULT_ITEMS; localStorage.setItem(KEY_ITEMS,JSON.stringify(items)); }
 }
-function saveItems(){ localStorage.setItem(KEY_ITEMS, JSON.stringify(items)); }
-function loadOrders(){
-  const s = localStorage.getItem(KEY_ORDERS);
-  if(s){ try{ orders = JSON.parse(s) || []; }catch(e){ orders = []; } }
-  if(!Array.isArray(orders)) orders = [];
+function loadCart(){
+  const s=localStorage.getItem(KEY_CART);
+  if(s){ try{ cart=JSON.parse(s)||[]; }catch(e){ cart=[]; } }
+  if(!Array.isArray(cart)) cart=[];
 }
-function saveOrders(){ localStorage.setItem(KEY_ORDERS, JSON.stringify(orders)); }
+function saveCart(){ localStorage.setItem(KEY_CART, JSON.stringify(cart)); }
 
 document.getElementById('saveNameBtn').addEventListener('click', ()=>{
-  const name = nameInput.value.trim();
+  const name=nameInput.value.trim();
   if(!name){ alert('Vul een naam in.'); return; }
-  saveUser(name);
-  closeNameModal();
-  renderAll();
+  saveUser(name); closeNameModal(); renderAll();
 });
-document.getElementById('changeUserBtn').addEventListener('click', ()=>{
-  nameInput.value = currentUser || '';
-  openNameModal();
-});
+document.getElementById('changeUserBtn').addEventListener('click', ()=>{ nameInput.value=currentUser||''; openNameModal(); });
 
-const TAB_ORDER = ['Bier','Wijn','Fris','Chips','Beheer','Overzicht'];
+const TAB_ORDER=['Bier','Wijn','Fris','Chips','Beheer','Overzicht'];
 function renderTabs(){
-  tabsEl.innerHTML = '';
+  tabsEl.innerHTML='';
   TAB_ORDER.forEach(t=>{
-    const b = document.createElement('button');
-    b.className = 'tab' + (view===t ? ' active':'');
-    b.textContent = t;
-    b.addEventListener('click', ()=>{ view = t; renderView(); renderTabs(); });
+    const b=document.createElement('button');
+    b.className='tab'+(view===t?' active':'');
+    const dot=document.createElement('span');
+    dot.className='dot';
+    const [c1,c2]=TAB_COLORS[t]||['#F7B733','#e7a623'];
+    dot.style.background=c1; dot.style.boxShadow=`0 0 0 4px ${c1}22`;
+    b.appendChild(dot); b.appendChild(document.createTextNode(t));
+    if(view===t){ b.style.background=`linear-gradient(180deg, ${c1}, ${c2})`; b.style.color='#18243f'; b.style.borderColor=`${c1}66`; }
+    b.addEventListener('click', ()=>{ view=t; setAccentForView(view); renderView(); renderTabs(); });
     tabsEl.appendChild(b);
   });
 }
 
 function renderView(){
-  viewMenu.style.display = 'block';
-  viewManage.style.display = 'none';
-  viewTimeline.style.display = 'none';
+  setAccentForView(view);
+  viewMenu.style.display='block'; viewManage.style.display='none'; viewTimeline.style.display='none';
 
-  if(view === 'Beheer'){
-    viewTitle.textContent = 'Beheer';
-    viewSubtitle.textContent = 'Artikelen toevoegen en verwijderen';
-    priceHint.textContent = 'Menu aanpassen';
-    viewMenu.style.display = 'none';
-    viewManage.style.display = 'block';
-    renderManage();
-    return;
+  if(view==='Beheer'){
+    viewTitle.textContent='Beheer'; viewSubtitle.textContent='Artikelen toevoegen en verwijderen';
+    viewMenu.style.display='none'; viewManage.style.display='block'; renderManage(); return;
   }
-  if(view === 'Overzicht'){
-    viewTitle.textContent = 'Overzicht';
-    viewSubtitle.textContent = 'Bestellingen chronologisch';
-    priceHint.textContent = 'Filter per persoon';
-    viewMenu.style.display = 'none';
-    viewTimeline.style.display = 'block';
-    renderTimeline();
-    return;
+  if(view==='Overzicht'){
+    viewTitle.textContent='Overzicht'; viewSubtitle.textContent='Afgeronde orders (uniek ordernummer)';
+    viewMenu.style.display='none'; viewTimeline.style.display='block'; renderTimeline(); return;
   }
 
-  viewTitle.textContent = view;
-  viewSubtitle.textContent = 'Kies een artikel en voeg toe';
-  priceHint.textContent = 'Klik “Voeg toe”';
+  viewTitle.textContent=view; viewSubtitle.textContent='Kies een artikel en voeg toe';
+  const inCat=items.filter(i=>i.category===view);
+  viewMenu.innerHTML='';
+  if(inCat.length===0){ viewMenu.innerHTML=`<div class="small">Geen items in ${view}. Voeg ze toe in “Beheer”.</div>`; return; }
 
-  const inCat = items.filter(i=> i.category === view);
-  viewMenu.innerHTML = '';
-  if(inCat.length === 0){
-    viewMenu.innerHTML = `<div class="mutednote">Geen items in ${view}. Voeg ze toe in “Beheer”.</div>`;
-    return;
-  }
-
-  const grid = document.createElement('div');
-  grid.className = 'grid2';
+  const grid=document.createElement('div'); grid.className='grid2';
   inCat.forEach(it=>{
-    const div = document.createElement('div');
-    div.className = 'item';
-    div.innerHTML = `
+    const div=document.createElement('div'); div.className='item';
+    div.innerHTML=`
       <div style="display:flex;gap:10px;align-items:center;">
-        <div style="width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(247,183,51,0.15)"></div>
-        <div>
-          <div class="name">${it.name}</div>
-          <div class="small">€ ${euro(it.price)}</div>
-        </div>
+        <div style="width:10px;height:10px;border-radius:50%;background:var(--cat);box-shadow:0 0 0 4px rgba(255,255,255,0.06)"></div>
+        <div><div class="name">${it.name}</div><div class="small">€ ${euro(it.price)}</div></div>
       </div>
       <div class="controls">
         <input class="qty" type="number" min="1" value="1" id="qty_${it.id}">
         <button class="primary" data-add="${it.id}">Voeg toe</button>
-      </div>
-    `;
+      </div>`;
     grid.appendChild(div);
   });
   viewMenu.appendChild(grid);
@@ -451,171 +367,179 @@ function renderView(){
   viewMenu.querySelectorAll('button[data-add]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       if(!currentUser){ openNameModal(); return; }
-      const id = btn.getAttribute('data-add');
-      const it = items.find(x=>x.id===id);
-      const qtyEl = document.getElementById('qty_'+id);
-      const qty = Math.max(1, parseInt(qtyEl.value || '1', 10));
-      addOrder(it, qty);
+      const id=btn.getAttribute('data-add');
+      const it=items.find(x=>x.id===id);
+      const qtyEl=document.getElementById('qty_'+id);
+      const qty=Math.max(1, parseInt(qtyEl.value||'1',10));
+      addToCart(it, qty);
     });
   });
 }
 
-function addOrder(item, qty){
-  const entry = {
-    id: uid(),
-    ts: nowIso(),
-    user: currentUser,
-    itemId: item.id,
-    itemName: item.name,
-    category: item.category,
-    price: Number(item.price),
-    qty: Number(qty)
-  };
-  orders.push(entry);
-  saveOrders();
-  renderOrders();
-  if(view === 'Overzicht') renderTimeline();
+function addToCart(item, qty){
+  cart.push({ id:uid(), ts:nowIso(), user:currentUser, deviceId, itemName:item.name, category:item.category, price:Number(item.price), qty:Number(qty) });
+  saveCart(); renderCart();
 }
-
-function renderOrders(){
-  ordersBody.innerHTML = '';
-  orders.forEach(o=>{
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${o.user}</td>
-      <td>${o.itemName}</td>
-      <td>${o.qty}</td>
-      <td>€ ${euro(o.price * o.qty)}</td>
-      <td style="text-align:right"><button class="ghost" data-remove="${o.id}">Verwijder</button></td>
-    `;
-    ordersBody.appendChild(tr);
+function renderCart(){
+  cartBody.innerHTML='';
+  cart.forEach(o=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${o.user}</td><td>${o.itemName}</td><td>${o.qty}</td><td>€ ${euro(o.price*o.qty)}</td>
+      <td style="text-align:right"><button class="ghost" data-remove="${o.id}">Verwijder</button></td>`;
+    cartBody.appendChild(tr);
   });
-  const total = orders.reduce((s,o)=> s + o.price*o.qty, 0);
-  totalEl.textContent = euro(total);
-  countEl.textContent = orders.length;
+  totalEl.textContent=euro(cart.reduce((s,o)=>s+o.price*o.qty,0));
+  countEl.textContent=cart.length;
 
-  ordersBody.querySelectorAll('button[data-remove]').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const id = btn.getAttribute('data-remove');
-      orders = orders.filter(x=>x.id!==id);
-      saveOrders();
-      renderOrders();
-      if(view === 'Overzicht') renderTimeline();
-    });
+  cartBody.querySelectorAll('button[data-remove]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ const id=btn.getAttribute('data-remove'); cart=cart.filter(x=>x.id!==id); saveCart(); renderCart(); });
   });
 }
-
-document.getElementById('exportCsv').addEventListener('click', ()=>{
-  if(orders.length===0){ alert('Geen bestellingen om te exporteren.'); return; }
-  const rows = [['Tijd','Wie','Categorie','Artikel','Aantal','Prijs_per_stuk','Totaal']];
-  orders.forEach(o=> rows.push([formatTime(o.ts), o.user, o.category, o.itemName, o.qty, euro(o.price), euro(o.price*o.qty)]));
-  const csv = rows.map(r=> r.map(cell=> '"'+String(cell).replace(/"/g,'""')+'"').join(',')).join('\n');
-  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href=url; a.download='sinksen_bestellingen.csv';
-  document.body.appendChild(a); a.click();
-  setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 2000);
+document.getElementById('clearCartBtn').addEventListener('click', ()=>{
+  if(cart.length===0){ alert('Bestelling is al leeg.'); return; }
+  if(!confirm('Leeg de huidige bestelling?')) return;
+  cart=[]; saveCart(); renderCart();
 });
 
-document.getElementById('resetBtn').addEventListener('click', ()=>{
-  if(!confirm('Reset enkel de bestellingen op dit toestel?')) return;
-  orders = []; saveOrders(); renderOrders();
-  if(view === 'Overzicht') renderTimeline();
-});
-document.getElementById('wipeAllBtn').addEventListener('click', ()=>{
-  if(!confirm('Alles wissen? (bestellingen + artikelen + naam)')) return;
-  localStorage.removeItem(KEY_ORDERS);
-  localStorage.removeItem(KEY_ITEMS);
-  localStorage.removeItem(KEY_USER);
-  currentUser=''; items=[]; orders=[];
-  loadItems(); loadOrders(); loadUser();
-  renderAll();
+async function createOrderInSupabase(lines){
+  if(!supabaseClient) throw new Error("Supabase is niet ingesteld.");
+  const total=lines.reduce((s,o)=>s+o.price*o.qty,0);
+
+  const { data: orderData, error: orderErr } = await supabaseClient
+    .from(T_ORDERS)
+    .insert([{ device_id: deviceId, user_name: currentUser, total }])
+    .select('id, created_at')
+    .single();
+  if(orderErr) throw orderErr;
+
+  const orderId=orderData.id;
+  const createdAt=orderData.created_at;
+
+  const payload=lines.map(o=>({
+    order_id: orderId,
+    created_at: createdAt,
+    device_id: o.deviceId,
+    user_name: o.user,
+    category: o.category,
+    item_name: o.itemName,
+    qty: o.qty,
+    unit_price: o.price,
+    line_total: Number(o.price)*Number(o.qty)
+  }));
+  const { error: linesErr } = await supabaseClient.from(T_LINES).insert(payload);
+  if(linesErr) throw linesErr;
+
+  return orderId;
+}
+
+document.getElementById('finalizeBtn').addEventListener('click', async ()=>{
+  if(cart.length===0){ alert('Geen items om af te ronden.'); return; }
+  const total=cart.reduce((s,o)=>s+o.price*o.qty,0);
+  if(!confirm(`Bestelling afronden en verzenden?
+Totaal: € ${euro(total)}`)) return;
+
+  try{
+    const orderId=await createOrderInSupabase(cart);
+    orderNoEl.textContent=orderId;
+    cart=[]; saveCart(); renderCart();
+    alert(`Verzonden ✅  Uniek ordernummer: ${orderId}`);
+  }catch(e){
+    console.error(e);
+    alert('Verzenden mislukt. Check Supabase keys + internet.
+' + (e?.message || ''));
+  }
 });
 
 function renderManage(){
-  const list = document.getElementById('itemsList');
-  list.innerHTML = '';
-  items.slice().sort((a,b)=> (a.category+a.name).localeCompare(b.category+b.name)).forEach(it=>{
-    const div = document.createElement('div');
-    div.className = 'item';
-    div.innerHTML = `
-      <div>
-        <div class="name" style="font-size:14px;">${it.name}</div>
-        <div class="small">${it.category} • € ${euro(it.price)}</div>
-      </div>
-      <div class="controls"><button class="danger" data-del="${it.id}">Verwijder</button></div>
-    `;
+  const list=document.getElementById('itemsList');
+  list.innerHTML='';
+  items.slice().sort((a,b)=>(a.category+a.name).localeCompare(b.category+b.name)).forEach(it=>{
+    const div=document.createElement('div'); div.className='item';
+    div.innerHTML=`<div><div class="name" style="font-size:14px;">${it.name}</div><div class="small">${it.category} • € ${euro(it.price)}</div></div>
+      <div class="controls"><button class="danger" data-del="${it.id}">Verwijder</button></div>`;
     list.appendChild(div);
   });
   list.querySelectorAll('button[data-del]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
-      const id = btn.getAttribute('data-del');
-      const it = items.find(x=>x.id===id);
+      const id=btn.getAttribute('data-del');
+      const it=items.find(x=>x.id===id);
       if(!it) return;
       if(!confirm(`Verwijder “${it.name}” uit het menu?`)) return;
-      items = items.filter(x=>x.id!==id);
-      saveItems();
+      items=items.filter(x=>x.id!==id);
+      localStorage.setItem(KEY_ITEMS, JSON.stringify(items));
       renderManage();
       if(['Bier','Wijn','Fris','Chips'].includes(view)) renderView();
     });
   });
 }
-
 document.getElementById('addItemBtn').addEventListener('click', ()=>{
-  const name = document.getElementById('newName').value.trim();
-  const price = parseFloat(document.getElementById('newPrice').value);
-  const cat = document.getElementById('newCat').value;
+  const name=document.getElementById('newName').value.trim();
+  const price=parseFloat(document.getElementById('newPrice').value);
+  const cat=document.getElementById('newCat').value;
   if(!name){ alert('Geef een naam.'); return; }
-  if(!isFinite(price) || price < 0){ alert('Geef een geldige prijs.'); return; }
-  items.push({ id: uid(), name, price: Number(price), category: cat });
-  saveItems();
-  document.getElementById('newName').value = '';
-  document.getElementById('newPrice').value = '';
-  renderManage();
-  if(['Bier','Wijn','Fris','Chips'].includes(view)) renderView();
+  if(!isFinite(price)||price<0){ alert('Geef een geldige prijs.'); return; }
+  items.push({ id:uid(), name, price:Number(price), category:cat });
+  localStorage.setItem(KEY_ITEMS, JSON.stringify(items));
+  document.getElementById('newName').value=''; document.getElementById('newPrice').value='';
+  renderManage(); if(['Bier','Wijn','Fris','Chips'].includes(view)) renderView();
 });
 
+async function loadSharedFromSupabase(){
+  if(!supabaseClient) return;
+  const { data, error } = await supabaseClient.from(T_LINES).select('*').order('created_at',{ascending:true}).limit(4000);
+  if(error) throw error;
+  sharedLines=data||[];
+}
+
 function renderTimeline(){
-  const filterEl = document.getElementById('timelineFilter');
-  const body = document.getElementById('timelineBody');
-  const users = Array.from(new Set(orders.map(o=>o.user))).sort((a,b)=>a.localeCompare(b));
-  const current = filterEl.value || 'Alle';
+  const filterEl=document.getElementById('timelineFilter');
+  const body=document.getElementById('timelineBody');
 
-  filterEl.innerHTML = '';
-  const optAll = document.createElement('option'); optAll.value='Alle'; optAll.textContent='Alle';
-  filterEl.appendChild(optAll);
-  users.forEach(u=>{
-    const opt = document.createElement('option'); opt.value=u; opt.textContent=u;
-    filterEl.appendChild(opt);
-  });
-  filterEl.value = users.includes(current) ? current : 'Alle';
+  const users=Array.from(new Set(sharedLines.map(o=>o.user_name))).filter(Boolean).sort((a,b)=>a.localeCompare(b));
+  const current=filterEl.value||'Alle';
 
-  const sel = filterEl.value;
-  const list = orders.slice().sort((a,b)=> a.ts.localeCompare(b.ts)).filter(o=> sel==='Alle' ? true : o.user===sel);
+  filterEl.innerHTML='';
+  const optAll=document.createElement('option'); optAll.value='Alle'; optAll.textContent='Alle'; filterEl.appendChild(optAll);
+  users.forEach(u=>{ const opt=document.createElement('option'); opt.value=u; opt.textContent=u; filterEl.appendChild(opt); });
+  filterEl.value=users.includes(current)?current:'Alle';
 
-  body.innerHTML = '';
-  if(list.length === 0){
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td colspan="5" class="small">Geen bestellingen voor deze filter.</td>`;
-    body.appendChild(tr);
-    return;
-  }
+  const sel=filterEl.value;
+  const list=sharedLines.slice().sort((a,b)=>(a.created_at||'').localeCompare(b.created_at||'')).filter(o=>sel==='Alle'||o.user_name===sel);
+
+  body.innerHTML='';
+  if(list.length===0){ const tr=document.createElement('tr'); tr.innerHTML=`<td colspan="6" class="small">Nog geen data (of sync niet ingesteld).</td>`; body.appendChild(tr); return; }
+
   list.forEach(o=>{
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${formatTime(o.ts)}</td><td>${o.user}</td><td>${o.itemName}</td><td>${o.qty}</td><td>€ ${euro(o.price * o.qty)}</td>`;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${o.order_id??''}</td><td>${formatTime(o.created_at)}</td><td>${o.user_name}</td><td>${o.item_name}</td><td>${o.qty}</td><td>€ ${euro(o.line_total)}</td>`;
     body.appendChild(tr);
   });
-  filterEl.onchange = ()=> renderTimeline();
+
+  filterEl.onchange=()=>renderTimeline();
 }
 
-function renderAll(){
-  renderTabs();
-  renderView();
-  renderOrders();
-  if(view === 'Overzicht') renderTimeline();
+async function setupSupabase(){
+  if(!SUPABASE_URL.startsWith('http') || SUPABASE_ANON_KEY.startsWith('PASTE_')){
+    syncStatus.innerHTML='☁️ Sync: <span class="warn">niet ingesteld</span>'; return;
+  }
+  supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  syncStatus.innerHTML='☁️ Sync: <span style="color:var(--ok);font-weight:900">verbonden</span>';
+
+  await loadSharedFromSupabase();
+  if(view==='Overzicht') renderTimeline();
+
+  realtimeChannel = supabaseClient
+    .channel('orders-lines-changes-v6')
+    .on('postgres_changes', { event:'INSERT', schema:'public', table:T_LINES }, (payload)=>{
+      if(payload?.new){ sharedLines.push(payload.new); if(view==='Overzicht') renderTimeline(); }
+    })
+    .subscribe();
 }
 
-loadItems(); loadOrders(); loadUser(); renderAll();
+function renderAll(){ setAccentForView(view); renderTabs(); renderView(); renderCart(); if(view==='Overzicht') renderTimeline(); }
+
+loadDevice(); loadItems(); loadCart(); loadUser(); renderAll();
+setupSupabase().catch(e=>{ console.error(e); syncStatus.innerHTML='☁️ Sync: <span class="warn">fout</span>'; });
 </script>
 </body>
 </html>
