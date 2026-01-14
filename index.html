@@ -445,8 +445,7 @@ Totaal: € ${euro(total)}`)) return;
     alert(`Verzonden ✅  Uniek ordernummer: ${orderId}`);
   }catch(e){
     console.error(e);
-    alert('Verzenden mislukt. Check Supabase keys + internet.
-' + (e?.message || ''));
+   alert('Verzenden mislukt. Check Supabase keys + internet.\n' + (e?.message || ''));
   }
 });
 
